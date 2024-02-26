@@ -6,7 +6,7 @@ const userController = Router();
 userController.get("/", async (req, res) => {
   let { zurawallet } = req?.headers;
   try {
-    let profiles = await UserModel.findOne({ zuraWallet: zurawallet });
+    let profiles = await UserModel.findOne({ zurawallet: zurawallet });
     res.status(200).send(profiles);
   } catch {
     console.log("error while fetching");
@@ -38,15 +38,15 @@ userController.post("/profile", async (req, res) => {
 
 // routes for updating profile data
 
-userController.patch("/profile/update", async (req, res) => {
+userController.put("/profile/update", async (req, res) => {
   let { zurawallet } = req?.headers;
 
   try {
-    let data = await UserModel.findOneAndUpdate(
+    await UserModel.findOneAndUpdate(
       { zurawallet: zurawallet },
       { ...req.body }
     );
-    res.send(data);
+    res.status(200).send({ msg: "user updated success!" });
   } catch (err) {
     res.status(401).send("something went wrong!");
     console.log(err);
